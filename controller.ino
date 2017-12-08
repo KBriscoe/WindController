@@ -119,9 +119,67 @@ void loop() {
               break;
     }
   }else if (packetbuffer[1] == 'H') {
-    
+    case 0: humidity[0] = packetbuffer[3];
+              humidity[1] = packetbuffer[4];
+              humidity[2] = packetbuffer[5];
+              break;
+    case 1: humidity[3] = packetbuffer[3];
+              humidity[4] = packetbuffer[4];
+              humidity[5] = packetbuffer[5];
+              break;
+    case 2: humidity[6] = packetbuffer[3];
+              humidity[7] = packetbuffer[4];
+              humidity[8] = packetbuffer[5];
+              break;
+    case 3: humidity[9] = packetbuffer[3];
+              humidity[10] = packetbuffer[4];
+              humidity[11] = packetbuffer[5];
+              break;
+     case 4: humidity[12] = packetbuffer[3];
+              humidity[13] = packetbuffer[4];
+              humidity[14] = packetbuffer[5];
+              break;
   }else if (packetbuffer[1]== 'T') {
-    
+    case 0: temperature[0] = packetbuffer[3];
+              temperature[1] = packetbuffer[4];
+              temperature[2] = packetbuffer[5];
+              break;
+    case 1: temperature[3] = packetbuffer[3];
+              temperature[4] = packetbuffer[4];
+              temperature[5] = packetbuffer[5];
+              break;
+    case 2: temperature[6] = packetbuffer[3];
+              temperature[7] = packetbuffer[4];
+              temperature[8] = packetbuffer[5];
+              break;
+    case 3: temperature[9] = packetbuffer[3];
+              temperature[10] = packetbuffer[4];
+              temperature[11] = packetbuffer[5];
+              break;
+    case 4: temperature[12] = packetbuffer[3];
+              temperature[13] = packetbuffer[4];
+              temperature[14] = packetbuffer[5];
+              break;
+    case 5: temperature[15] = packetbuffer[3];
+              temperature[16] = packetbuffer[4];
+              temperature[17] = packetbuffer[5];
+              break;
+    case 6: temperature[18] = packetbuffer[3];
+              temperature[19] = packetbuffer[4];
+              temperature[20] = packetbuffer[5];
+              break;
+     case 7: temperature[21] = packetbuffer[3];
+              temperature[22] = packetbuffer[4];
+              temperature[23] = packetbuffer[5];
+              break;
+     case 8: temperature[24] = packetbuffer[3];
+              temperature[25] = packetbuffer[4];
+              temperature[26] = packetbuffer[5];
+              break;
+     case 9: temperature[27] = packetbuffer[3];
+              temperature[28] = packetbuffer[4];
+              temperature[29] = packetbuffer[5];
+              break;
   }
   //Get Current Settings
   

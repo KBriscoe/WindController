@@ -25,12 +25,12 @@ void    printHex   (const uint8_t * data, const uint32_t numBytes);
 
 // Packet buffer
 extern uint8_t packetbuffer[];
-int mode = -1;
 int r = 255;
 int g = 0;
 int b = 0;
 
 //Settings
+int currentMode = -1;
 int weather[9];
 int temperature[30];
 int humidity[15];
@@ -91,7 +91,8 @@ void startAdv(void)
 */
 /**************************************************************************/
 void loop() {
-  animatePixels(strip, r, g, b, ANIMATION_PERIOD_MS);
+  getMode();
+  animatePixels(strip, r, g, b, currentMode);
   // Wait for new data to arrive
   uint8_t len = readPacket(&bleuart, 500);
   if (len == 0) return;
@@ -101,19 +102,7 @@ void loop() {
 
 // Parse a color packet.
   if (packetbuffer[1] == 'M') {
-    currentMode = Mode[packetbuffer[2].toInt()]
-    // Grab the RGB values from the packet and change the light color.
-    r = packetbuffer[2];
-    g = packetbuffer[3];
-    b = packetbuffer[4];
-    // Print out the color that was received too:
-    Serial.print ("RGB #");
-    if (r < 0x10) Serial.print("0");
-    Serial.print(r, HEX);
-    if (g < 0x10) Serial.print("0");
-    Serial.print(g, HEX);
-    if (b < 0x10) Serial.print("0");
-    Serial.println(b, HEX);
+    currentMode = mode[packetbuffer[2]];
   }else if (packetbuffer[1] == 'W') {
     switch(packetbuffer[2]){
       case 0: weather[0] = packetbuffer[3];
@@ -133,8 +122,6 @@ void loop() {
     
   }else if (packetbuffer[1]== 'T') {
     
-  }else if (packetbuffer[1] == 'M') {
-    //Change RGB Values
   }
   //Get Current Settings
   
@@ -156,19 +143,15 @@ void colorWipe(uint32_t c, uint8_t wait) {
   }
 }
 
-void animatePixels(Adafruit_NeoPixel& strip, uint8_t r, uint8_t g, uint8_t b, int periodMS) {
-  int mode = millis()/periodMS % 2;
-  // Now light all the pixels and set odd and even pixels to different colors.
-  // By alternating the odd/even pixel colors they'll appear to march along the strip.
-  for (int i = 0; i < strip.numPixels(); ++i) {
-    if (i%2 == mode) {
-      strip.setPixelColor(i, r, g, b);  // Full bright color.
-    }
-    else {
-      strip.setPixelColor(i, r/4, g/4, b/4);  // Quarter intensity color.
-    }
+void animatePixels(Adafruit_NeoPixel& strip, uint8_t r, uint8_t g, uint8_t b, int currentMode) {
+  switch (currentMode){
+    case -1 : rainbow(20);
+              break;
   }
-  strip.show();
+}
+
+int getMode() {
+  return currentMode;
 }
 
 void rainbow(uint8_t wait) {

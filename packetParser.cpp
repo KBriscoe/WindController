@@ -3,13 +3,9 @@
 #include <bluefruit.h>
 
 
-#define PACKET_ACC_LEN                  (15)
-#define PACKET_GYRO_LEN                 (15)
-#define PACKET_MAG_LEN                  (15)
-#define PACKET_QUAT_LEN                 (19)
-#define PACKET_BUTTON_LEN               (5)
-#define PACKET_COLOR_LEN                (6)
-#define PACKET_LOCATION_LEN             (15)
+#define PACKET_MODE_LEN                 (4)
+#define PACKET_SCHEDULE_LEN             (6)
+#define PACKET_COLOR_LEN                (7)
 
 //    READ_BUFSIZE            Size of the read buffer for incoming packets
 #define READ_BUFSIZE                    (20)
@@ -75,19 +71,11 @@ uint8_t readPacket(BLEUart *ble_uart, uint16_t timeout)
 
   while (timeout--) {
     if (replyidx >= 20) break;
-    if ((packetbuffer[1] == 'A') && (replyidx == PACKET_ACC_LEN))
+    if ((packetbuffer[1] == 'M') && (replyidx == PACKET_MODE_LEN))
       break;
-    if ((packetbuffer[1] == 'G') && (replyidx == PACKET_GYRO_LEN))
-      break;
-    if ((packetbuffer[1] == 'M') && (replyidx == PACKET_MAG_LEN))
-      break;
-    if ((packetbuffer[1] == 'Q') && (replyidx == PACKET_QUAT_LEN))
-      break;
-    if ((packetbuffer[1] == 'B') && (replyidx == PACKET_BUTTON_LEN))
+    if ((packetbuffer[1] == 'S') && (replyidx == PACKET_SCHEDULE_LEN))
       break;
     if ((packetbuffer[1] == 'C') && (replyidx == PACKET_COLOR_LEN))
-      break;
-    if ((packetbuffer[1] == 'L') && (replyidx == PACKET_LOCATION_LEN))
       break;
 
     while (ble_uart->available()) {
@@ -131,4 +119,3 @@ uint8_t readPacket(BLEUart *ble_uart, uint16_t timeout)
   // checksum passed!
   return replyidx;
 }
-
